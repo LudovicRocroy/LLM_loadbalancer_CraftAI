@@ -1,0 +1,2 @@
+craft_ai_sdk==0.59.0
+requests

@@ -1,0 +1,1 @@
+{   "1": {     "endpoint_url": "YOUR_URL_ENDPOINT_1",     "endpoint_token": "YOUR_URL_TOKEN_1"   },   "2": {     "endpoint_url": "YOUR_URL_ENDPOINT_2",     "endpoint_token": "YOUR_URL_TOKEN_2"   } }
