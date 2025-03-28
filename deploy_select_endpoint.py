@@ -56,6 +56,8 @@ sdk.create_pipeline(
 )
 
 print("Pipeline created successfully")
+
+# Test run created pipeline
 print("Testing pipeline execution")
 
 execution_result = sdk.run_pipeline(pipeline_name="selectendpointpipeline", inputs={"message": "test"})
