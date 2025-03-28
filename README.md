@@ -61,14 +61,15 @@ Dependencies used in the project:
    ```
 
 3. Call the endpoint with a message:
-   ```curl -L "https://ENVIRONMENT_URL/endpoints/selectendpointapi" \
+   ```bash
+   curl -L "https://ENVIRONMENT_URL/endpoints/selectendpointapi" \
   -H "Authorization: EndpointToken ENDPOINT_TOKEN" \
   -H "Content-Type: application/json; charset=utf-8" \
   -d @- << EOF
-{
-  "message": "YOUR_MESSAGE"
-}
-EOF
+    {
+    "message": "YOUR_MESSAGE"
+    }
+    EOF
    ```
 
 ## 📊 Metrics Tracked
@@ -81,13 +82,11 @@ EOF
 
 ## 🧠 Ideal Use Case
 
-This project is perfect for:
-- Load balancing across multiple LLM backends.
-- Fallback logic between models of varying capabilities or availability.
-- Monitoring endpoint health and performance over time.
+This project is perfect for load balancing across multiple LLM backends, taking into account if the endpoint is up or down. Thats perfect if you want to have one GPU worker as a base and more GPU workers that you put active or on standing accord to load.
+
+LLM endpoint selection is currently full random, but you can implement a smarter way if your prefer.
+
 
 ## 🛠️ Maintainers
 
-Built with ❤️ by the Craft.AI automation team.
-
-For questions or support, contact us via [Craft.AI Support](https://craft.ai).
+Built with ❤️ by the Craft.AI team.
