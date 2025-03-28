@@ -62,10 +62,10 @@ Dependencies used in the project:
 
 3. Call the endpoint with a message:
    ```bash
-   curl -L "https://ENVIRONMENT_URL/endpoints/selectendpointapi" \
-  -H "Authorization: EndpointToken ENDPOINT_TOKEN" \
-  -H "Content-Type: application/json; charset=utf-8" \
-  -d @- << EOF
+    curl -L "https://ENVIRONMENT_URL/endpoints/selectendpointapi" \
+    -H "Authorization: EndpointToken ENDPOINT_TOKEN" \
+    -H "Content-Type: application/json; charset=utf-8" \
+    -d @- << EOF
     {
     "message": "YOUR_MESSAGE"
     }
