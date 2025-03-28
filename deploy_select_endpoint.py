@@ -1,3 +1,18 @@
+# Description:
+#
+# This script is used to manage the deployment of a Craft.AI pipeline.
+# It performs the following actions:
+#
+# 1. Deletes the existing pipeline (if it exists) using the name `selectendpointpipeline`.
+# 2. Defines the input and output structure for the pipeline function `select_endpoint`.
+# 3. Creates a new pipeline using a Python function located at `src/select_endpoint.py`.
+# 4. Runs a test execution of the pipeline with a sample input message to ensure it works.
+# 5. Deploys the pipeline as an API endpoint named `selectendpointapi` in low-latency mode.
+#    The deployment is configured to allow parallel executions (up to 8 per pod).
+#
+# This is especially useful for production-ready scenarios where you want high-throughput,
+# non-blocking endpoint access for dynamic routing or load-balanced logic inside the `select_endpoint` function.
+
 import os
 from craft_ai_sdk import CraftAiSdk
 from craft_ai_sdk.io import Input, Output
@@ -9,24 +24,24 @@ sdk = CraftAiSdk()
 try:
     sdk.delete_pipeline("selectendpointpipeline", force_deployments_deletion=True)
 except Exception as e:
-    print(f"Suppression ignorée : {e}")
+    print(f"Ignored deletion: {e}")
 
-# Définition de l'entrée
+# Define pipeline input
 input_param = Input(
     name="message",
     data_type="string",
-    description="Message à envoyer"
+    description="Message to send"
 )
 
-# Définition de la sortie (ajustée ici)
+# Define pipeline output
 output_param = Output(
     name="results",
-    data_type="string",  # ou "json" si nécessaire
-    description="Réponse du modèle sélectionné"
+    data_type="string",  # or "json" if needed
+    description="Response from the selected model"
 )
 
-# Création du pipeline
-print("Création du pipeline")
+# Create pipeline
+print("Starting pipeline creation")
 sdk.create_pipeline(
     pipeline_name="selectendpointpipeline",
     function_name="select_endpoint",
@@ -40,14 +55,14 @@ sdk.create_pipeline(
     outputs=[output_param]
 )
 
-print("Création du pipeline terminée")
-print("Test du pipeline")
+print("Pipeline created successfully")
+print("Testing pipeline execution")
 
 execution_result = sdk.run_pipeline(pipeline_name="selectendpointpipeline", inputs={"message": "test"})
-print("Exécution de test terminée :", execution_result)
+print("Test execution result:", execution_result)
 
-# Déploiement
-print("Création du déploiement (api)")
+# Deploy as API
+print("Starting deployment (API)")
 
 sdk.create_deployment(
     pipeline_name="selectendpointpipeline",
@@ -55,7 +70,7 @@ sdk.create_deployment(
     execution_rule="endpoint",
     mode="low_latency",
     enable_parallel_executions=True,
-    max_parallel_executions_per_pod=8
+    max_parallel_executions_per_pod=8 # Your can change this parameter
 )
 
-print("Déploiement terminé.")
+print("Deployment completed.")
