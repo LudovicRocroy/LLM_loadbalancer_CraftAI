@@ -5,7 +5,7 @@
 #
 # 1. Deletes the existing pipeline (if it exists) using the name `selectendpointpipeline`.
 # 2. Defines the input and output structure for the pipeline function `select_endpoint`.
-# 3. Creates a new pipeline using a Python function located at `src/select_endpoint.py`.
+# 3. Creates a new pipeline using a Python function located at `src/select_endpoint_order.py`.
 # 4. Runs a test execution of the pipeline with a sample input message to ensure it works.
 # 5. Deploys the pipeline as an API endpoint named `selectendpointapi` in low-latency mode.
 #    The deployment is configured to allow parallel executions (up to 8 per pod).
@@ -45,7 +45,7 @@ print("Starting pipeline creation")
 sdk.create_pipeline(
     pipeline_name="selectendpointpipeline",
     function_name="select_endpoint",
-    function_path="src/select_endpoint.py",
+    function_path="src/select_endpoint_order.py",
     container_config={
         "local_folder": os.getcwd(),
         "requirements_path": "requirements.txt",

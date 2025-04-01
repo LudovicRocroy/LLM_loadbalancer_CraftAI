@@ -6,7 +6,9 @@ This project provides a flexible and resilient API system designed to dynamicall
 
 The `select_endpoint` function:
 - Loads a list of available model endpoints from an environment variable on the [Craft.AI MLOps platform](https://mlops-platform-documentation.craft.ai/) (`ENDPOINT_LIST`).
-- Randomly shuffles the list to avoid bias.
+- Apply a choice depending on the deploiment : 
+    - Random : Randomly shuffles the list to avoid bias.
+    - Order : Run through the endpoint list from the last answering endpoint
 - Tries to send a POST request to each endpoint in order until it receives a valid (HTTP 200) response.
 - Tracks and logs key execution metrics using Craft.AI's native SDK tools.
 
@@ -19,10 +21,10 @@ This is the core Python function that:
 - Handles failures gracefully with retries.
 - Records metrics such as selected endpoints, response times, HTTP status codes, and more.
 
-### `deploy_select_endpoint.py`
+### `deploy_select_endpoint_random OR order.py`
 This deployment script:
 - Deletes any existing pipeline and deployment named `selectendpointpipeline` / `selectendpointapi`.
-- Recreates a pipeline using the `select_endpoint.py` function.
+- Recreates a pipeline using the `select_endpoint_random or order.py` function.
 - Tests it before deploiement.
 - Deploys it as a low-latency API with parallel execution support.
 
@@ -55,9 +57,9 @@ Dependencies used in the project:
    }
    ```
 
-2. Deploy the function using (you need to have Python and craft-ai-sdk librairy installed):
+2. Deploy the function using for example (you need to have Python and craft-ai-sdk librairy installed):
    ```bash
-   python deploy_select_endpoint.py
+   python deploy_select_endpoint_random.py
    ```
 
 3. Call the endpoint with a message:
@@ -78,13 +80,11 @@ Dependencies used in the project:
 - `endpoint-attempt` — In Metrics : Index of the endpoint that succeeded.
 - `endpoint-candidate-X` — via printed logs : Endpoint URLs attempted in order.
 - `statut-endpoint-X` — via printed logs : HTTP status for each attempted endpoint (or -1 if unreachable).
-- Timing (POST duration and total function time) : via printed logs.
+- `Timing'` — via printed logs : POST duration and total function time.
 
 ## 🧠 Ideal Use Case
 
 This project is perfect for load balancing across multiple LLM backends, taking into account if the endpoint is up or down. Thats perfect if you want to have one GPU worker as a base and more GPU workers that you put active or on standing accord to load.
-
-LLM endpoint selection is currently full random, but you can implement a smarter way if your prefer.
 
 
 ## 🛠️ Maintainers
